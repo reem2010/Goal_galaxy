@@ -37,7 +37,7 @@ class BaseModel:
                         )
                 else:
                     setattr(self, key, value)
-
+ 
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
