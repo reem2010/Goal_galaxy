@@ -25,36 +25,28 @@ class DBStorage:
 
     def all(self, cls=None, id=0):
         """query objects"""
-        classes = []
         data = []
         tables = {}
         if id:
-            data = self.__session.query(Task).filter(Task.user_id == id).all()
+            data = self.__session.query(cls).filter(Task.user_id == id).all()
         else:
-           data = self.__session.query(User).all()
-        for i in data:
-            key = f"{i.__class__.__name__}.{i.id}"
-            tables[key] = i
-        return tables
+           data = self.__session.query(cls).all()
+       
+        return data
     
     def priority(self, id):
         """orderd by priority"""
         tables = {}
         data = self.__session.query(Task).filter(Task.user_id == id).order_by(Task.priority.desc()).all()
-        for i in data:
-            key = f"{i.__class__.__name__}.{i.id}"
-            tables[key] = i
-        return tables
+        return data
     
 
     def deadline(self, id):
         """orderd by deadline"""
         tables = {}
         data = self.__session.query(Task).filter(Task.user_id == id).order_by(Task.deadline).all()
-        for i in data:
-            key = f"{i.__class__.__name__}.{i.id}"
-            tables[key] = i
-        return tables
+        
+        return data
     
     
     def new(self, obj):
@@ -65,7 +57,7 @@ class DBStorage:
         """save to data base"""
         self.__session.commit()
 
-    def delete(self, obj=None):
+    def delete(self, obj=None): 
         """delete from the current database session"""
         if obj:
             self.__session.delete(obj)
